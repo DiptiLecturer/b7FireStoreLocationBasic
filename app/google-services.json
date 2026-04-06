@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "528950979198",
+    "project_id": "simplelocationshareb7",
+    "storage_bucket": "simplelocationshareb7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528950979198:android:7dd0c2a84d8b903423c62f",
+        "android_client_info": {
+          "package_name": "org.freedu.simplelocationshareb7"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4cwP1vnYoHnSqxsej0KIsFR5vYGp6yIs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
