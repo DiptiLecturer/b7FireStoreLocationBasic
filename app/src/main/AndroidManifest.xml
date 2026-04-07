@@ -16,6 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleLocationShareB7">
         <activity
+            android:name=".ActivityProfile"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AuthActivity"
+            android:exported="false" />
+        <activity
             android:name=".MapsActivity"
             android:exported="false" />
 

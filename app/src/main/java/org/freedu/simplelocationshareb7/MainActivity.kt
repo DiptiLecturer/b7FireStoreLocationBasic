@@ -15,7 +15,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import org.freedu.simplelocationshareb7.databinding.ActivityMainBinding
 
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
@@ -40,6 +39,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+
+
+        getLocation()
+
         binding.btnGetLocation.setOnClickListener {
             getLocation()
         }
@@ -59,6 +62,18 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String?>,
+        grantResults: IntArray,
+        deviceId: Int
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults, deviceId)
+        if (requestCode == 100 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            getLocation()
+        }
+    }
+
     private fun saveLocation() {
         val data = hashMapOf(
             "latitude" to currentLat,
@@ -75,23 +90,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED
+        if (ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 100)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                100
+            )
             return
         }
 
         // ✅ Permission granted → get location
-      fusedLocationClient.lastLocation.addOnSuccessListener {location ->
-          if(location!=null){
-              currentLat = location.latitude
-              currentLng = location.longitude
-              Toast.makeText(this, "Lat: $currentLat, Lng: $currentLng", Toast.LENGTH_SHORT).show()
-          }else{
-              Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show()
-          }
+        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            if (location != null) {
+                currentLat = location.latitude
+                currentLng = location.longitude
+                Toast.makeText(this, "Lat: $currentLat, Lng: $currentLng", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show()
+            }
 
-      }
+        }
     }
 }
