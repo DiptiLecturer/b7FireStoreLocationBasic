@@ -16,24 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleLocationShareB7">
         <activity
-            android:name=".ActivityProfile"
+            android:name=".MyProfileActivity"
             android:exported="false" />
-        <activity
-            android:name=".HomeActivity"
-            android:exported="false" />
+
         <activity
             android:name=".AuthActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MapsActivity"
-            android:exported="false" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDk30wyWrbDQifpIzNoK-n7Jl9v-RIDEBY" />
-
-        <activity
-            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,6 +28,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MapsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDk30wyWrbDQifpIzNoK-n7Jl9v-RIDEBY" />
+
+
     </application>
 
 </manifest>
