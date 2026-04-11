@@ -1,5 +1,6 @@
 package org.freedu.simplelocationshareb7
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -37,6 +38,7 @@ class AuthActivity : AppCompatActivity() {
             if (email.isEmpty() || password.isEmpty()) {
                 return@setOnClickListener
             }
+
             viewModel.login(email, password)
 
         }
@@ -54,6 +56,7 @@ class AuthActivity : AppCompatActivity() {
         viewModel.registerResult.observe(this) { (success, message) ->
             if (success) {
                 Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT).show()
+                navigateToFriendList()
             } else {
                 Toast.makeText(this, "Registration Filed", Toast.LENGTH_SHORT).show()
             }
@@ -61,11 +64,18 @@ class AuthActivity : AppCompatActivity() {
         viewModel.loginResult.observe(this) { (success, message) ->
             if (success) {
                 Toast.makeText(this, "Logged In Successful", Toast.LENGTH_SHORT).show()
+                navigateToFriendList()
             } else {
                 Toast.makeText(this, "Logged In Filed", Toast.LENGTH_SHORT).show()
             }
         }
 
 
+    }
+
+    private fun navigateToFriendList() {
+        val intent = Intent(this, FriendListActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

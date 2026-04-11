@@ -3,7 +3,6 @@ package org.freedu.simplelocationshareb7.Repo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import org.freedu.simplelocationshareb7.AppUsers
-
 class UserRepository {
 
 
@@ -16,7 +15,11 @@ class UserRepository {
             .addOnSuccessListener { result ->
                 val userId = result.user?.uid ?: return@addOnSuccessListener
                 val userName = email.substringBefore("@")
-                val user = AppUsers(userId, userName, email)
+                val user = AppUsers(
+                    userId = userId,
+                    username = userName,
+                    email = email
+                    )
                 db.collection("users").document(userId).set(user)
                     .addOnSuccessListener {
                         onComplete(true, null)
