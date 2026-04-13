@@ -3,6 +3,7 @@ package org.freedu.simplelocationshareb7.Repo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import org.freedu.simplelocationshareb7.AppUsers
+
 class UserRepository {
 
 
@@ -19,7 +20,7 @@ class UserRepository {
                     userId = userId,
                     username = userName,
                     email = email
-                    )
+                )
                 db.collection("users").document(userId).set(user)
                     .addOnSuccessListener {
                         onComplete(true, null)
@@ -45,5 +46,22 @@ class UserRepository {
 
     }
 
-    fun currentUserId(): String? = auth.currentUser?.uid
+
+    fun getAllUsers(onComplete: (List<AppUsers>) -> Unit) {
+        db.collection("users").get()
+            .addOnSuccessListener { snapshot ->
+                val list = snapshot.documents.mapNotNull { doc ->
+                    doc.toObject(AppUsers::class.java)
+                }
+                onComplete(list)
+            }
+            .addOnFailureListener {
+                onComplete(emptyList())
+            }
+    }
+
+
+    fun getCurrentUserId(): String? = auth.currentUser?.uid
+
+
 }
