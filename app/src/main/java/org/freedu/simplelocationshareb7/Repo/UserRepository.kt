@@ -78,24 +78,15 @@ class UserRepository {
 
     }
 
-    fun updateLocation(
-        userId: String,
-        lat: Double,
-        lng: Double,
-        onComplete: (Boolean) -> Unit
-    ) {
+    fun updateLocation(userId: String, lat: Double, lng: Double, onComplete: (Boolean) -> Unit) {
         db.collection("users").document(userId).update(
             mapOf(
                 "latitude" to lat,
                 "longitude" to lng
 
             )
-        ).addOnSuccessListener {
-            onComplete.invoke(true)
-        }
-            .addOnFailureListener { e ->
-                onComplete.invoke(false)
-            }
+        ).addOnSuccessListener { onComplete.invoke(true) }
+            .addOnFailureListener { onComplete.invoke(false) }
 
     }
 
@@ -113,11 +104,11 @@ class UserRepository {
             onComplete(false)
             return
         }
-        fused.lastLocation.addOnSuccessListener {loc->
-            if (loc!=null){
-                updateLocation(userId,loc.latitude,loc.longitude,onComplete)
+        fused.lastLocation.addOnSuccessListener { loc ->
+            if (loc != null) {
+                updateLocation(userId, loc.latitude, loc.longitude, onComplete)
                 onComplete(true)
-            }else{
+            } else {
                 onComplete(false)
             }
         }
