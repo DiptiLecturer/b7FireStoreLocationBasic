@@ -1,6 +1,7 @@
 package org.freedu.simplelocationshareb7
 
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -27,19 +28,19 @@ class UserAdapter(private val onItemClick: (AppUsers) -> Unit
         return UserViewHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = getItem(position)
-
         holder.binding.tvUsername.text = user.username
         holder.binding.tvEmail.text = user.email
         holder.binding.tvLat.text= "Latitude: ${user.latitude ?: "N/A"}"
         holder.binding.tvLng.text= "Longitude: ${user.longitude ?: "N/A"}"
+
         holder.itemView.setOnClickListener {
             onItemClick(user)
         }
 
     }
     inner class UserViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root)
-
 
 }
