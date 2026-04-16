@@ -2,8 +2,10 @@ package org.freedu.simplelocationshareb7
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +21,7 @@ class FriendListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFriendListBinding
     private val repo = UserRepository()
+    private var isMenuOpen = false
 
     private val viewModel by viewModels<FriendListViewModel> {
         object : ViewModelProvider.Factory {
@@ -33,31 +36,56 @@ class FriendListActivity : AppCompatActivity() {
         binding = ActivityFriendListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         //step 1 = setup the adapter
-
         val adapter = UserAdapter { selectedUser ->
-            Toast.makeText(this@FriendListActivity, selectedUser.email, Toast.LENGTH_SHORT).show()
-
+            startActivity(Intent(this, MapsActivity::class.java).apply {
+                putExtra("uId", selectedUser.userId)
+            })
         }
         binding.userRecycler.layoutManager = LinearLayoutManager(this)
         binding.userRecycler.setHasFixedSize(true)
         binding.userRecycler.adapter = adapter
 
         //step2 fetch user
-
         viewModel.fetchUsers()
 
         //3 observe data and remove current user
-
         viewModel.userList.observe(this) { list ->
             val currentUid = repo.getCurrentUserId()
-            val filteredOut = list.filter { it.userId != currentUid }
-            adapter.submitList(filteredOut)
+            adapter.submitList(list.filter { it.userId != currentUid })
         }
-
         loadCurrentUser()
         checkLocationPermission()
 
+        binding.fabMain.setOnClickListener {
+            if (isMenuOpen) closeMenu() else openMenu()
+
+
+        }
+
+
+    }
+
+    private fun openMenu() {
+        binding.fabProfile.visibility = View.VISIBLE
+        binding.fabLogout.visibility = View.VISIBLE
+        binding.fabShowMap.visibility = View.VISIBLE
+
+        //animation
+
+        isMenuOpen = true
+
+    }
+
+    private fun closeMenu() {
+        binding.fabProfile.visibility = View.GONE
+        binding.fabLogout.visibility = View.GONE
+        binding.fabShowMap.visibility = View.GONE
+
+        //animation
+
+        isMenuOpen = false
     }
 
     @SuppressLint("SetTextI18n")
@@ -84,6 +112,7 @@ class FriendListActivity : AppCompatActivity() {
             Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
     }
+
     private fun checkLocationPermission() {
         if (!hasLocationPermission()) {
             ActivityCompat.requestPermissions(
@@ -119,5 +148,10 @@ class FriendListActivity : AppCompatActivity() {
                 Toast.makeText(this, "Location update failed", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        closeMenu()
     }
 }

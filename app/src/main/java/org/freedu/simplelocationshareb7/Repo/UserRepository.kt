@@ -11,8 +11,10 @@ import org.freedu.simplelocationshareb7.AppUsers
 
 
 class UserRepository {
+
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
+
     fun registerUser(email: String, password: String, onComplete: (Boolean, String?) -> Unit) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener { result ->
@@ -106,13 +108,20 @@ class UserRepository {
         }
         fused.lastLocation.addOnSuccessListener { loc ->
             if (loc != null) {
-                updateLocation(userId, loc.latitude, loc.longitude, onComplete)
-                onComplete(true)
+                updateLocation(userId, loc.latitude, loc.longitude){success->
+                    onComplete(success)
+                }
+
             } else {
                 onComplete(false)
             }
         }
     }
+
+    fun logOut(){
+        auth.signOut()
+    }
+
 
 
 }
