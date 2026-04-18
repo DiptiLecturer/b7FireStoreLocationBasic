@@ -35,7 +35,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         map = googleMap
 
         val showAll = intent.getBooleanExtra("showAll", false)
-        val userId = intent.getStringExtra("uId")
+        val userId = intent.getStringExtra("uid")
 
         if (showAll) {
             loadAllUsers()
