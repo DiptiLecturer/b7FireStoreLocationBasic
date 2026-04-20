@@ -209,9 +209,9 @@ class FriendListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
-
         isMenuOpen = false
         closeMenu()
+        viewModel.fetchUsers()
+        loadCurrentUser()
     }
 }

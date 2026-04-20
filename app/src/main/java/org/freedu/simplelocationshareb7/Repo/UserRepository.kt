@@ -122,6 +122,13 @@ class UserRepository {
         auth.signOut()
     }
 
+    fun updateUsername(userId: String, newName: String, onComplete: (Boolean) -> Unit) {
+        db.collection("users").document(userId)
+            .update("username", newName)
+            .addOnSuccessListener { onComplete(true) }
+            .addOnFailureListener { onComplete(false) }
+    }
+
 
 
 }
